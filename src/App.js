@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import FriendCard from "./components/FriendCard";
 import Wrapper from "./components/Wrapper";
 import Title from "./components/Title";
+// eslint-disable-next-line
+import Counter from "./components/Counter";
 import friends from "./friends.json";
 import "./App.css";
 
