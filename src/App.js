@@ -13,7 +13,56 @@ import friends from "./friends.json";
 class App extends Component {
   // Setting this.state.friends to the friends json array
   state = {
-    friends
+    friends,
+    score: 0,
+    topScore: 0
+  };
+
+// shuffles cards when page loads
+  componentDidMount() {
+    this.setState({friends: this.shuffleFriends(this.state.friends) });
+  }
+
+// function to shuffle cards
+  shuffleFriends = friend => {
+    let i = friends.length -1;
+    while (i > 0) {
+      const j = Math.floor(Math.random() * (i +1));
+      const temp = friends[i];
+      friends[i] = friends[j];
+      friends[j] = temp;
+      i--;
+    }
+    return friends;
+  };
+
+  handleCorrectGuess = newFriends => {
+    const {topScore, score } = this.state;
+    const newScore = score +1;
+    const newTopScore = newScore > topScore ? newScore : topScore;
+    this.setState({
+      friends: this.shuffleFriends(newFriends),
+      score: newScore,
+      topScore: newTopScore
+    });
+  };
+
+  handleFriendClick = id => {
+    let guessedCorrectly = false;
+    const newFriends = this.state.data.map(friend => {
+      const newFriend = { ...friend };
+      if (newFriend.id === id) {
+        if (!newFriend.clicked) {
+          newFriend.clicked = true;
+          guessedCorrectly = true;
+        }
+      }
+      return newFriend;
+    });
+
+    guessedCorrectly
+      ? this.handleCorrectGuess(newFriends)
+      : this.handleWrongGuess(newFriends);
   };
 
 
@@ -31,6 +80,7 @@ class App extends Component {
               id={friend.id}
               key={friend.id}
               image={friend.image}
+              handleClick={this.handleFriendClick}
             />
           ))}
         </Wrapper>
