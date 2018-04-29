@@ -1,0 +1,26 @@
+.header {
+  background-color: #2C323C;
+  /*background-image: url("/assets/images/geometry.svg");*/
+  background-repeat: repeat;
+  color: white;
+  min-height: 400px;
+  padding: 90px 0px; 
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 3rem;
+}
+
+.img-container {
+  /*height: 100%;*/
+  overflow: hidden;
+  /*text-align: center;*/
+  /*background:#6CADDC;*/
+}
+.img-container > img {
+  width: 100%
+}
