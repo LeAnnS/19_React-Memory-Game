@@ -23,7 +23,7 @@ class App extends Component {
     this.setState({friends: this.shuffleFriends(this.state.friends) });
   }
 
-// function to shuffle cards
+// function to shuffle  friend cards
   shuffleFriends = friend => {
     let i = friends.length -1;
     while (i > 0) {
@@ -37,7 +37,7 @@ class App extends Component {
   };
 
   handleCorrectGuess = newFriends => {
-    const {topScore, score } = this.state;
+    const { topScore, score } = this.state;
     const newScore = score +1;
     const newTopScore = newScore > topScore ? newScore : topScore;
     this.setState({
@@ -47,9 +47,34 @@ class App extends Component {
     });
   };
 
+  handleIncorrectGuess = friends => {
+    this.setState({
+      friends: this.resetFriends(friends),
+      score: 0
+    });
+  };
+
+  resetFriends = friends => {
+    const resetFriends = friends.map(friend => ({ ...friend, clicked: false }));
+    return this.shuffleFriends(resetFriends);
+  };
+
+  // function to shuffle  friend cards
+  shuffleFriends = friend => {
+    let i = friends.length -1;
+    while (i > 0) {
+      const j = Math.floor(Math.random() * (i +1));
+      const temp = friends[i];
+      friends[i] = friends[j];
+      friends[j] = temp;
+      i--;
+    }
+    return friends;
+  };
+
   handleFriendClick = id => {
     let guessedCorrectly = false;
-    const newFriends = this.state.data.map(friend => {
+    const newFriends = this.state.friends.map(friend => {
       const newFriend = { ...friend };
       if (newFriend.id === id) {
         if (!newFriend.clicked) {
@@ -62,7 +87,7 @@ class App extends Component {
 
     guessedCorrectly
       ? this.handleCorrectGuess(newFriends)
-      : this.handleWrongGuess(newFriends);
+      : this.handleIncorrectGuess(newFriends);
   };
 
 
@@ -70,16 +95,15 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Nav />
+        <Nav score={this.state.score} topScore={this.state.topScore}/>
         <Header />
         <Wrapper>
-          
-
           {this.state.friends.map(friend => (
             <FriendCard
               id={friend.id}
               key={friend.id}
               image={friend.image}
+              shake={!this.state.score && this.state.topScore}
               handleClick={this.handleFriendClick}
             />
           ))}
