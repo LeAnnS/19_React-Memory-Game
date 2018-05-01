@@ -26,7 +26,7 @@ class App extends Component {
 
   handleCorrectGuess = newFriends => {
     const { topScore, score } = this.state;
-    const newScore = score +1;
+    const newScore = score + 1;
     const newTopScore = newScore > topScore ? newScore : topScore;
     this.setState({
       friends: this.shuffleFriends(newFriends),
@@ -48,7 +48,7 @@ class App extends Component {
   };
 
   // function to shuffle  friend cards
-  shuffleFriends = friend => {
+  shuffleFriends = friends => {
     let i = friends.length -1;
     while (i > 0) {
       const j = Math.floor(Math.random() * (i +1));
